@@ -679,7 +679,10 @@ def scrape_review_summary(driver,URLS):
     wait = WebDriverWait(driver, 15)
 
     # ---------- COVER IMAGE ----------
-    section = wait.until(EC.presence_of_element_located((By.ID, "topHeaderCard-top-section")))
+    try:
+       section = wait.until(EC.presence_of_element_located((By.ID, "topHeaderCard-top-section")))
+    except:
+        pass
     img = section.find_element(By.ID, "topHeaderCard-gallery-image")
     college_info["college_name"] = img.get_attribute("alt")
     college_info["cover_image"] = img.get_attribute("src")
@@ -693,7 +696,10 @@ def scrape_review_summary(driver,URLS):
             college_info["photos_count"] = int(re.search(r"\d+", text).group())
 
     # ---------- HEADER CARD ----------
-    header = wait.until(EC.presence_of_element_located((By.ID, "top-header-card-heading")))
+    try:
+       header = wait.until(EC.presence_of_element_located((By.ID, "top-header-card-heading")))
+    except:
+        pass
 
     try:
         college_info["logo"] = header.find_element(By.CSS_SELECTOR, "div.c55b78 img").get_attribute("src")
