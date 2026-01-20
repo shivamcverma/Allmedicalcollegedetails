@@ -694,9 +694,12 @@ def scrape_review_summary(driver,URLS):
     else:
         img = None
 
-    college_info["college_name"] = img.get_attribute("alt")
-    college_info["cover_image"] = img.get_attribute("src")
-
+    if img:
+        college_info["college_name"] = img.get_attribute("alt")
+        college_info["cover_image"] = img.get_attribute("src")
+    else:
+        college_info["college_name"] = None
+        college_info["cover_image"] = None
     badges = section.find_elements(By.CLASS_NAME, "b8cb")
     for badge in badges:
         text = badge.text.lower()
