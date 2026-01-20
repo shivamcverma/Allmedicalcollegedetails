@@ -679,11 +679,21 @@ def scrape_review_summary(driver,URLS):
     wait = WebDriverWait(driver, 15)
 
     # ---------- COVER IMAGE ----------
+    section = None
     try:
-       section = wait.until(EC.presence_of_element_located((By.ID, "topHeaderCard-top-section")))
-    except:
-        pass
-    img = section.find_element(By.ID, "topHeaderCard-gallery-image")
+        section = wait.until(EC.presence_of_element_located((By.ID, "topHeaderCard-top-section")))
+    except Exception as e:
+        print(f"Section not found: {e}")
+
+    if section:
+        try:
+            img = section.find_element(By.ID, "topHeaderCard-gallery-image")
+        except Exception as e:
+            print(f"Image not found in section: {e}")
+            img = None
+    else:
+        img = None
+
     college_info["college_name"] = img.get_attribute("alt")
     college_info["cover_image"] = img.get_attribute("src")
 
